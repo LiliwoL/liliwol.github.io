@@ -1,3 +1,8 @@
-# LiliwoL Formation
+---
+title: My First Page
+layout: default
+---
 
-[Javascript]<javascript.md>
+# Welcome
+
+This is my first page.

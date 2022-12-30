@@ -2,40 +2,58 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+
+<!--Meta Keywords and Description-->
+<meta name="keywords" content="formateur php symfony BTS Angular VueJS">
+<meta name="description" content="">
+
+<!--Favicon-->
+<link rel="shortcut icon" href="/_assets/img/favicon.ico" title="Favicon"/>
+
 <link rel="stylesheet" href="/_assets/main.css" />
     <title>SQL Aller plus loin 2/3 - LiliwoL</title>
   <link rel="stylesheet" href="/_markdown_plugin_assets/highlight.js/atom-one-light.css" /></head>
+
   <body>
+
     <div class="main">
+
       <nav class="navigation">
         <a href="/">LiliwoL</a>
       </nav>
+
       <article>
         <header>
           <h1 class="article-title">SQL Aller plus loin 2/3</h1>
           <div class="article-info">
             <div>
               <span
-                >Created At：<time datetime="1668781177724"
+                >Créé le：<time datetime="1668781177724"
                   >2022-11-18 15:19</time
                 ></span
               >
               <span
-                >Updated At：<time datetime="1668781553737"
+                >Mis à jour：<time datetime="1668781553737"
                   >2022-11-18 15:25</time
                 ></span
               >
             </div>
             
+            <div>
+              Tags: 
+              <span class="keyword">SLAM1</span>
+              
+            </div>
+            
           </div>
         </header>
         <div class="article-content markdown-body"><h1 id="sql-23">SQL 2/3</h1>
-<nav class="table-of-contents"><ul><li><a href="#sql-23">SQL 2/3</a></li><li><a href="#aller-plus-loin-en-sql">Aller plus loin en SQL</a><ul><li><a href="#aller-plus-loin-avec-select">Aller plus loin avec SELECT</a><ul><li><a href="#sélection-simple">Sélection simple</a></li><li><a href="#sélection-multiple">Sélection multiple</a></li><li><a href="#compter-le-nombre-de-réponses-dune-requête-select">Compter le nombre de réponses d’une requête SELECT</a></li><li><a href="#trier-les-réponses">Trier les réponses</a></li><li><a href="#éviter-les-occurrences-multiples">Éviter les occurrences multiples</a></li><li><a href="#a-vous-de-jouer">A vous de jouer</a></li></ul></li><li><a href="#requêtes-portant-sur-plusieurs-tables">Requêtes portant sur plusieurs tables</a><ul><li><a href="#jointure">Jointure</a></li><li><a href="#a-vous-de-jouer-1">A vous de jouer</a></li><li><a href="#le-cas-des-relations-de-n-à-n">Le cas des relations de n à n</a></li><li><a href="#a-vous-de-jouer-2">A vous de jouer</a></li></ul></li></ul></li></ul></nav><hr />
+<nav class="table-of-contents"><ul><li><a href="#sql-23">SQL 2/3</a></li><li><a href="#aller-plus-loin-en-sql">Aller plus loin en SQL</a><ul><li><a href="#aller-plus-loin-avec-select">Aller plus loin avec SELECT</a><ul><li><a href="#sélection-simple">Sélection simple</a></li><li><a href="#sélection-multiple">Sélection multiple</a></li><li><a href="#compter-le-nombre-de-réponses-dune-requête-select">Compter le nombre de réponses d'une requête SELECT</a></li><li><a href="#trier-les-réponses">Trier les réponses</a></li><li><a href="#éviter-les-occurrences-multiples">Éviter les occurrences multiples</a></li><li><a href="#a-vous-de-jouer">A vous de jouer</a></li></ul></li><li><a href="#requêtes-portant-sur-plusieurs-tables">Requêtes portant sur plusieurs tables</a><ul><li><a href="#jointure">Jointure</a></li><li><a href="#a-vous-de-jouer-1">A vous de jouer</a></li><li><a href="#le-cas-des-relations-de-n-à-n">Le cas des relations de n à n</a></li><li><a href="#a-vous-de-jouer-2">A vous de jouer</a></li></ul></li></ul></li></ul></nav><hr />
 <h1 id="aller-plus-loin-en-sql">Aller plus loin en SQL</h1>
-<p>Dans ce classeur, nous poursuivrons l’étude de l’exemple de la base de données de livres de SF et nous verrons des <strong>requêtes de sélection avancées</strong> ainsi que la manière de <strong>fusionner</strong> plusieurs tables (<strong>Jointures</strong>).</p>
-<p>Rendez vous sur l’interface de gestion de votre base de données.</p>
+<p>Dans ce classeur, nous poursuivrons l'étude de l'exemple de la base de données de livres de SF et nous verrons des <strong>requêtes de sélection avancées</strong> ainsi que la manière de <strong>fusionner</strong> plusieurs tables (<strong>Jointures</strong>).</p>
+<p>Rendez vous sur l'interface de gestion de votre base de données.</p>
 <ul>
 <li>PHPMyAdmin</li>
 <li>SQLServer Mangament Console</li>
@@ -43,30 +61,30 @@
 <hr />
 <h2 id="aller-plus-loin-avec-select">Aller plus loin avec SELECT</h2>
 <h3 id="sélection-simple">Sélection simple</h3>
-<p>Supposons que l’on veuille lister <strong>seulement</strong> les noms et prénoms des auteurs <strong>nés avant 1900</strong>, on utilisera une clause <strong>WHERE</strong> <em>condition</em> :</p>
+<p>Supposons que l'on veuille lister <strong>seulement</strong> les noms et prénoms des auteurs <strong>nés avant 1900</strong>, on utilisera une clause <strong>WHERE</strong> <em>condition</em> :</p>
 <div><pre class="hljs"><code><span class="hljs-keyword">SELECT</span> NomAuteur, PrenomAuteur <span class="hljs-keyword">from</span> Auteurs <span class="hljs-keyword">WHERE</span> AnneeNaissance <span class="hljs-operator">&lt;</span> <span class="hljs-number">1900</span>;</code></pre></div>
 <p>Pour obtebir les auteurs prénommés <em>Jules</em> :</p>
 <div><pre class="hljs"><code><span class="hljs-keyword">SELECT</span> NomAuteur, PrenomAuteur <span class="hljs-keyword">from</span> Auteurs <span class="hljs-keyword">WHERE</span> PrenomAuteur <span class="hljs-operator">=</span> <span class="hljs-string">'Jules'</span>;</code></pre></div>
-<p>Vous voyez que les textes sont délimités par des quotes <strong>‘…’</strong>.</p>
+<p>Vous voyez que les textes sont délimités par des quotes <strong>'...'</strong>.</p>
 <p><em><strong>Attention</strong></em> : essayez de remplacer <strong>Jules</strong> par <strong>jules</strong> et vous constaterez que <strong>la recherche est sensible aux majuscules.</strong></p>
-<p>Supposons maintenant que l’on recherche les auteurs dont le prénom commence par <strong>P</strong> :</p>
+<p>Supposons maintenant que l'on recherche les auteurs dont le prénom commence par <strong>P</strong> :</p>
 <p>Nous utiliserons une clause <em>LIKE</em> de cette manière :</p>
 <div><pre class="hljs"><code><span class="hljs-keyword">SELECT</span> NomAuteur, PrenomAuteur <span class="hljs-keyword">from</span> Auteurs <span class="hljs-keyword">WHERE</span> PrenomAuteur <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'P%'</span>;</code></pre></div>
 <p>Le caractère <strong>%</strong> est le caractère joker (wildcard) en sql.</p>
 <hr />
 <h3 id="sélection-multiple"><a title="#S%C3%A9lection-multiple" href="#S%C3%A9lection-multiple"></a>Sélection multiple<a title="#S%C3%A9lection-multiple" href="#S%C3%A9lection-multiple"></a></h3>
-<p>Il est possible de croiser plusieurs critères à l’aide d’opérateurs booleens : <strong>AND</strong> et <strong>OR</strong>. Voici la liste des auteurs français nés après 1900 :</p>
+<p>Il est possible de croiser plusieurs critères à l'aide d'opérateurs booleens : <strong>AND</strong> et <strong>OR</strong>. Voici la liste des auteurs français nés après 1900 :</p>
 <div><pre class="hljs"><code>%<span class="hljs-keyword">sql</span> <span class="hljs-keyword">SELECT</span> NomAuteur, PrenomAuteur <span class="hljs-keyword">from</span> Auteurs <span class="hljs-keyword">WHERE</span> IdLangue = <span class="hljs-number">2</span> <span class="hljs-keyword">AND</span> AnneeNaissance &gt; <span class="hljs-number">1900</span>;
 </code></pre></div>
-<h3 id="compter-le-nombre-de-réponses-dune-requête-select"><a title="#Compter-le-nombre-de-r%C3%A9ponses-d'une-requ%C3%AAte-SELECT" href="#Compter-le-nombre-de-r%C3%A9ponses-d"></a>Compter le nombre de réponses d’une requête SELECT<a title="#Compter-le-nombre-de-r%C3%A9ponses-d'une-requ%C3%AAte-SELECT" href="#Compter-le-nombre-de-r%C3%A9ponses-d"></a></h3>
-<p>Combien y a t-il d’auteurs nés entre 1900 et 1915 ? Vous verrez à l’occation l’utilisation de l’opérateur <em>BETWEEN</em> pour tester l’appartenance à un intervalle.</p>
+<h3 id="compter-le-nombre-de-réponses-dune-requête-select"><a title="#Compter-le-nombre-de-r%C3%A9ponses-d'une-requ%C3%AAte-SELECT" href="#Compter-le-nombre-de-r%C3%A9ponses-d"></a>Compter le nombre de réponses d'une requête SELECT<a title="#Compter-le-nombre-de-r%C3%A9ponses-d'une-requ%C3%AAte-SELECT" href="#Compter-le-nombre-de-r%C3%A9ponses-d"></a></h3>
+<p>Combien y a t-il d'auteurs nés entre 1900 et 1915 ? Vous verrez à l'occation l'utilisation de l'opérateur <em>BETWEEN</em> pour tester l'appartenance à un intervalle.</p>
 <div><pre class="hljs"><code>nbr = %<span class="hljs-keyword">sql</span> <span class="hljs-keyword">SELECT</span> COUNT(*) <span class="hljs-keyword">from</span> Auteurs <span class="hljs-keyword">WHERE</span> AnneeNaissance <span class="hljs-keyword">BETWEEN</span> <span class="hljs-number">1900</span> <span class="hljs-keyword">AND</span> <span class="hljs-number">1915</span>;
 
 print(nbr)
 print("récupérer juste le nombre : ", nbr[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>])
 </code></pre></div>
 <h3 id="trier-les-réponses"><a title="#Trier-les-r%C3%A9ponses" href="#Trier-les-r%C3%A9ponses"></a>Trier les réponses<a title="#Trier-les-r%C3%A9ponses" href="#Trier-les-r%C3%A9ponses"></a></h3>
-<p>Nous allons lister tous les auteurs par ordre croissant d’année de naissance</p>
+<p>Nous allons lister tous les auteurs par ordre croissant d'année de naissance</p>
 <div><pre class="hljs"><code>%<span class="hljs-keyword">sql</span> <span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">from</span> Auteurs <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> AnneeNaissance;
 </code></pre></div>
 <p>et par ordre décroissant, on ajoute <strong>DESC</strong> à la fin de la requête</p>
@@ -99,12 +117,12 @@ print("récupérer juste le nombre : ", nbr[<span class="hljs-number">0</span>][
 <span class="hljs-attribute">assert</span> reponse_2[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] == <span class="hljs-number">6</span>
 </code></pre></div>
 <h2 id="requêtes-portant-sur-plusieurs-tables"><a title="#Requ%C3%AAtes-portant-sur-plusieurs-tables" href="#Requ%C3%AAtes-portant-sur-plusieurs-tables"></a>Requêtes portant sur plusieurs tables<a title="#Requ%C3%AAtes-portant-sur-plusieurs-tables" href="#Requ%C3%AAtes-portant-sur-plusieurs-tables"></a></h2>
-<p>Jusqu’à présent, nos requêtes ne portaient que sur une seule table. Néanmoins notre liste de livres comporte des donées en provenance de plusieurs tables simultanément. Nous allons voir comment effectuer des requêtes pour croiser des données en provenance de plusieurs tables.</p>
+<p>Jusqu'à présent, nos requêtes ne portaient que sur une seule table. Néanmoins notre liste de livres comporte des donées en provenance de plusieurs tables simultanément. Nous allons voir comment effectuer des requêtes pour croiser des données en provenance de plusieurs tables.</p>
 <div><pre class="hljs"><code><span class="hljs-operator">%</span><span class="hljs-keyword">sql</span> <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> Langues, Auteurs
 </code></pre></div>
-<p>Comme on peut le constater cette requête est peu pertinente car elle affiche toutes les données de chacune des tables sans effectuer de correspondances. La <strong>clé de jointure</strong> apparaît pourtant ici clairement : il s’agit de <strong>id_langue</strong> qui doit permettre de recouper les informations entre les deux tables : il est en effet inutile d’afficher les données pour lesquelles les langues ne correspondent pas entre les deux tables.</p>
+<p>Comme on peut le constater cette requête est peu pertinente car elle affiche toutes les données de chacune des tables sans effectuer de correspondances. La <strong>clé de jointure</strong> apparaît pourtant ici clairement : il s'agit de <strong>id_langue</strong> qui doit permettre de recouper les informations entre les deux tables : il est en effet inutile d'afficher les données pour lesquelles les langues ne correspondent pas entre les deux tables.</p>
 <h3 id="jointure"><a title="#Jointure" href="#Jointure"></a>Jointure<a title="#Jointure" href="#Jointure"></a></h3>
-<p>La <strong>jonture</strong> consiste à croiser les données de plusieurs tables pour les présenter sous forme d’un seul tableau. On va utiliser ce mécanisme pour afficher clairement la langue de l’auteur plutôt qu’un numéro qui n’est pas forcément très parlant. Nous utiliserons pour cela l’opérateur <strong>JOIN … ON</strong> :</p>
+<p>La <strong>jonture</strong> consiste à croiser les données de plusieurs tables pour les présenter sous forme d'un seul tableau. On va utiliser ce mécanisme pour afficher clairement la langue de l'auteur plutôt qu'un numéro qui n'est pas forcément très parlant. Nous utiliserons pour cela l'opérateur <strong>JOIN ... ON</strong> :</p>
 <div><pre class="hljs"><code>%<span class="hljs-keyword">sql</span> <span class="hljs-keyword">SELECT</span> NomAuteur, PrenomAuteur, Langue, AnneeNaissance  <span class="hljs-keyword">FROM</span> Auteurs <span class="hljs-keyword">JOIN</span> Langues <span class="hljs-keyword">ON</span> Auteurs.IdLangue = Langues.IdLangue
 </code></pre></div>
 <p>Les champs sur lesquels faire la jointure <strong>ayant les mêmes noms dans les 2 tables</strong>, cette requête peut aussi être écrite plus simplement en utilisant le mot-clé <strong>USING</strong> ainsi :</p>
@@ -128,12 +146,12 @@ print("récupérer juste le nombre : ", nbr[<span class="hljs-number">0</span>][
 <span class="hljs-keyword">assert</span> reponse_2[<span class="hljs-number">0</span>] == (<span class="hljs-string">'La nuit des temps'</span>, <span class="hljs-string">'René'</span>, <span class="hljs-string">'Barjavel'</span>, <span class="hljs-number">1968</span>)
 </code></pre></div>
 <h3 id="le-cas-des-relations-de-n-à-n"><a title="#Le-cas-des-relations-de-n-%C3%A0-n" href="#Le-cas-des-relations-de-n-%C3%A0-n"></a>Le cas des relations de n à n<a title="#Le-cas-des-relations-de-n-%C3%A0-n" href="#Le-cas-des-relations-de-n-%C3%A0-n"></a></h3>
-<p>Parfois il arrive que les données à collecter se trouvent dans plus que deux tables : c’est le cas des Thèmes pour les livres qui nécessitent l’analyse de 3 tables : <strong>Livres</strong> et <strong>Thèmes</strong> bien sûr, mais aussi la table de relation <strong>RelationsLivreTheme</strong>.</p>
-<p>Observez et étudiez la requête suivante : Le principe est d’enchaîner deux jointures <strong>JOIN … USING</strong> en utilisant <em><strong>la table de Relation au milieu</strong></em>. En effet, la requête se lit de la gauche vers la droite et on ne peut faire de jointure que si on a une clé externe en commun, ce qui n’est par exemple pas le cas entre <strong>Livres</strong> et <strong>Thèmes</strong>.</p>
+<p>Parfois il arrive que les données à collecter se trouvent dans plus que deux tables : c'est le cas des Thèmes pour les livres qui nécessitent l'analyse de 3 tables : <strong>Livres</strong> et <strong>Thèmes</strong> bien sûr, mais aussi la table de relation <strong>RelationsLivreTheme</strong>.</p>
+<p>Observez et étudiez la requête suivante : Le principe est d'enchaîner deux jointures <strong>JOIN ... USING</strong> en utilisant <em><strong>la table de Relation au milieu</strong></em>. En effet, la requête se lit de la gauche vers la droite et on ne peut faire de jointure que si on a une clé externe en commun, ce qui n'est par exemple pas le cas entre <strong>Livres</strong> et <strong>Thèmes</strong>.</p>
 <div><pre class="hljs"><code><span class="hljs-operator">%</span><span class="hljs-keyword">sql</span> <span class="hljs-keyword">SELECT</span> Titre, Intitule <span class="hljs-keyword">FROM</span> Livres <span class="hljs-keyword">JOIN</span> RelationsLivreTheme <span class="hljs-keyword">USING</span> (IdLivre) <span class="hljs-keyword">JOIN</span> Themes <span class="hljs-keyword">USING</span> (IdTheme)
 </code></pre></div>
 <h3 id="a-vous-de-jouer-3"><a title="#A-vous-de-jouer" href="#A-vous-de-jouer"></a>A vous de jouer<a title="#A-vous-de-jouer" href="#A-vous-de-jouer"></a></h3>
-<p>Ecrire une requête permettant d’obtenir une liste dont les attributs sont <strong>Titre</strong>, <strong>NomAuteur</strong> et <strong>Langue</strong> triée par ordre croissant de date de naissance de l’auteur.</p>
+<p>Ecrire une requête permettant d'obtenir une liste dont les attributs sont <strong>Titre</strong>, <strong>NomAuteur</strong> et <strong>Langue</strong> triée par ordre croissant de date de naissance de l'auteur.</p>
 <p>Vous stockerez le résultat dans une variable <code>result</code></p>
 <div><pre class="hljs"><code><span class="hljs-comment"># Utiliser la syntaxe courte </span>
 <span class="hljs-comment"># reponse = %sql VOTRE REQUETE </span>

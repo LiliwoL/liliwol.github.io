@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+
+<!--Meta Keywords and Description-->
+<meta name="keywords" content="formateur php symfony BTS Angular VueJS">
+<meta name="description" content="">
+
+<!--Favicon-->
+<link rel="shortcut icon" href="/_assets/img/favicon.ico" title="Favicon"/>
+
+<link rel="stylesheet" href="/_assets/main.css" />
+    <title>Injection SQL - LiliwoL</title>
+  <link rel="stylesheet" href="/_markdown_plugin_assets/highlight.js/atom-one-light.css" /></head>
+
+  <body>
+
+    <div class="main">
+
+      <nav class="navigation">
+        <a href="/">LiliwoL</a>
+      </nav>
+
+      <article>
+        <header>
+          <h1 class="article-title">Injection SQL</h1>
+          <div class="article-info">
+            <div>
+              <span
+                >Créé le：<time datetime="1663835595574"
+                  >2022-09-22 10:33</time
+                ></span
+              >
+              <span
+                >Mis à jour：<time datetime="1664812659946"
+                  >2022-10-03 17:57</time
+                ></span
+              >
+            </div>
+            
+          </div>
+        </header>
+        <div class="article-content markdown-body"><h1 id="injections-sql-sqli-principes-impacts-exploitations-et-bonnes-pratiques-de-sécurité">Injections SQL (SQLi) : principes, impacts, exploitations et bonnes pratiques de sécurité</h1>
+<p><img src="/_resources/92885ab2e5cc4469be7a01576dd43e8d.jpg" /></p>
+<nav class="table-of-contents"><ul><li><a href="#injections-sql-sqli-principes-impacts-exploitations-et-bonnes-pratiques-de-sécurité">Injections SQL (SQLi) : principes, impacts, exploitations et bonnes pratiques de sécurité</a><ul><li><a href="#en-quoi-consiste-une-injection-sql-sqli">En quoi consiste une injection SQL (SQLi) ?</a></li><li><a href="#cas-dutilisation-et-impacts-dune-injection-sql">Cas d’utilisation et impacts d’une injection SQL</a></li><li><a href="#liste-des-injections-sql-connues">Liste des injections SQL connues</a></li><li><a href="#comment-détourner-la-logique-dune-application-via-une-attaque-par-injection-sql">Comment détourner la logique d’une application via une attaque par injection SQL ?</a><ul><li><a href="#recherche-dun-paramètre-vulnérable-aux-sqli">Recherche d’un paramètre vulnérable aux SQLi</a></li><li><a href="#contournement-dauthentification-via-une-attaque-par-injection-sql">Contournement d’authentification via une attaque par injection SQL</a></li><li><a href="#attaque-par-injection-sql-avec-lopérateur-or">Attaque par injection SQL avec l’opérateur OR</a></li><li><a href="#contournement-de-lauthentification-avec-des-commentaires">Contournement de l’authentification avec des commentaires</a></li></ul></li><li><a href="#focus-sur-les-attaques-par-injection-sql-avec-union-union-based-sqli">Focus sur les attaques par injection SQL avec UNION (Union Based SQLi)</a><ul><li><a href="#identification-du-nombre-de-colonnes">Identification du nombre de colonnes</a></li><li><a href="#utilisation-de-order-by">Utilisation de ORDER BY</a></li><li><a href="#utilisation-de-union">Utilisation de UNION</a></li><li><a href="#localisation-de-linjection">Localisation de l’injection</a></li></ul></li><li><a href="#énumération-de-la-base-de-données-suite-à-un-sqli">Énumération de la base de données suite à un SQLi</a><ul><li><a href="#schema">Schema</a></li><li><a href="#tables">Tables</a></li><li><a href="#colonnes">Colonnes</a></li><li><a href="#données">Données</a></li></ul></li><li><a href="#lecture-de-fichiers-suite-à-une-sqli">Lecture de fichiers suite à une SQLi</a></li><li><a href="#écriture-dans-des-fichiers-suite-à-une-sqli">Écriture dans des fichiers suite à une SQLi</a></li></ul></li></ul></nav><hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<p>La plupart des applications web utilisent une ou plusieurs base(s) de données pour stocker et traiter les informations en temps réel.</p>
+<p>En effet, lorsqu’un utilisateur envoie des requêtes, l’application web interroge la base de données afin de construire la réponse. Cependant, lorsque les informations fournies par l’utilisateur sont utilisées pour forger la requête à la base de données, un attaquant peut altérer cette dernière en l’utilisant à d’autres fins que celles prévues par le développeur d’origine. Ainsi, cela permet à un attaquant d’interroger la base de données via une <strong>injection SQL, abrégé en SQLi</strong>.</p>
+<p>L’injection SQL fait référence aux attaques contre les bases de données relationnelles telles que MySQL, Oracle Database ou Microsoft SQL Server. En revanche, les injections contre les bases de données non relationnelles, telles que MongoDB ou CouchDB, sont des injections NoSQL.</p>
+<p>Principes, impacts, exploitations, nous vous présentons dans cet article une vue d’ensemble des injections SQL, ainsi que les bonnes pratiques sécurité et mesures à implémenter pour contrer les risques d’attaque.</p>
+<h2 id="en-quoi-consiste-une-injection-sql-sqli">En quoi consiste une injection SQL (SQLi) ?</h2>
+<p>Il existe de nombreux types de vulnérabilités par injection, comme les failles XSS, l’injection d’entête HTTP, l’injection de code ainsi que l’injection de commande. Cependant, la plus connue, l’une des plus redoutables et la favorite des attaquants est certainement l’injection SQL.</p>
+<p>Une injection SQL se produit lorsqu’un utilisateur malveillant communique une entrée qui modifie la requête SQL envoyée par l’application web à la base de données. Cela lui permet alors d’exécuter d’autres requêtes SQL non souhaitées directement sur la base de données.</p>
+<p>Pour ce faire, l’attaquant doit injecter du code en dehors des limites de l’entrée utilisateur attendue, afin qu’il ne soit pas exécuté comme une entrée standard. Dans le cas le plus simple, il suffit d’injecter un guillemet simple ou double pour échapper aux limites de la saisie utilisateur et ainsi insérer des données directement dans la requête SQL.</p>
+<p>En effet, si possibilités d’injection il y a, l’attaquant va chercher un moyen d’exécuter une requête SQL différente. Dans la plupart des cas, il va utiliser du code SQL pour créer une requête qui exécute à la fois la requête SQL prévue et la nouvelle requête SQL.</p>
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<h2 id="cas-dutilisation-et-impacts-dune-injection-sql">Cas d’utilisation et impacts d’une injection SQL</h2>
+<p>Une injection SQL peut avoir un impact énorme, surtout si les privilèges sur le serveur et sur la base de données sont trop permissifs.</p>
+<p>Tout d’abord, un attaquant peut récupérer des <strong>informations sensibles</strong>, comme les <strong>identifiants</strong> et <strong>mots de passe</strong> des utilisateurs ou les informations relatives aux <strong>cartes bancaires</strong>.<br />
+En effet, les injections SQL sont à l’origine de nombreuses compromissions de mots de passe et de données de sites et d’applications web.</p>
+<p>Un autre cas d’utilisation de l’injection SQL consiste à <strong>détourner la logique prévue de l’application web</strong>. L’exemple le plus courant est le contournement d’une page d’authentification. Les attaquants peuvent également être en mesure de <strong>lire et d’écrire des fichiers directement sur le serveur</strong>, ce qui peut conduire à placer des backdoors (portes dérobées) sur le serveur, puis à prendre le contrôle de l’application.</p>
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<h2 id="liste-des-injections-sql-connues">Liste des injections SQL connues</h2>
+<p>Le dépôt GitHub suivant répertorie les injections SQL connues selon les différents serveurs</p>
+<p><a title="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection" href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection">https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL Injection</a></p>
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<h2 id="comment-détourner-la-logique-dune-application-via-une-attaque-par-injection-sql">Comment détourner la logique d’une application via une attaque par injection SQL ?</h2>
+<p>Avant de commencer à exécuter des requêtes SQL entières, nous allons d’abord étudier comment détourner la logique de la requête originale.</p>
+<h3 id="recherche-dun-paramètre-vulnérable-aux-sqli">Recherche d’un paramètre vulnérable aux SQLi</h3>
+<p>Avant de parvenir à nos fins, à savoir détourner la logique de l’application web et contourner l’authentification, nous devons dans un premier temps tester le formulaire de connexion, pour savoir s’il est vulnérable à l’injection SQL.</p>
+<p>Pour ce faire, nous pouvons ajouter l’une des payload ci-dessous après notre nom d’utilisateur et voir si cela provoque des erreurs ou modifie le comportement de la page :</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Payload</td>
+<td>URL Encoded</td>
+</tr>
+<tr>
+<td>‘</td>
+<td>%27</td>
+</tr>
+<tr>
+<td>«</td>
+<td>%22</td>
+</tr>
+<tr>
+<td>#</td>
+<td>%23</td>
+</tr>
+<tr>
+<td>;</td>
+<td>%3B</td>
+</tr>
+<tr>
+<td>)</td>
+<td>%29</td>
+</tr>
+</tbody>
+</table>
+<p>Lors de l’ajout d’un simple guillemet, une erreur SQL est affichée.</p>
+<img width="710" height="270" src="/_resources/d16ac8f0677640f0b9093d689b70cfb6.png" class="jop-noMdConv" />
+<p>La requête SQL envoyée à la base de données est la suivante :</p>
+<img width="710" height="217" src="/_resources/ab0570d554ee4cd3a6cf8855a73c3118.png" class="jop-noMdConv" />
+<p>Le guillemet que nous avons saisi a donné lieu à un <strong>nombre impair de guillemets</strong>, ce qui a provoqué une <strong>erreur de syntaxe</strong>.<br />
+Une option serait de commenter et d’écrire le reste de la requête dans le cadre de notre injection pour forger une requête fonctionnelle.<br />
+Une autre option consiste à utiliser un nombre pair de guillemets dans notre requête injectée, de sorte que la requête finale fonctionne toujours.</p>
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<h3 id="contournement-dauthentification-via-une-attaque-par-injection-sql">Contournement d’authentification via une attaque par injection SQL</h3>
+<p><img src="/_resources/00af5f361c774703b3d2f408814b04db.png" /></p>
+<p>Sur cette page d’authentification, nous pouvons nous connecter avec les informations d’identification de l’administrateur :</p>
+<div><pre class="hljs"><code>Identifiant : <span class="hljs-type">admin</span> 
+Mot de passe : 7<span class="hljs-type">aPa55w0rd</span>! </code></pre></div>
+<p>La page affiche la requête SQL en cours d’exécution afin de mieux comprendre comment détourner la logique de la requête.</p>
+<p><img src="/_resources/efb78b49d5e54fa9893a5d921df31eb6.png" /></p>
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<p>La page prend en compte les informations d’identification, puis utilise l’opérateur <strong>AND</strong> pour sélectionner les enregistrements correspondants au nom d’utilisateur et au mot de passe renseignés.<br />
+Si la base de données MySQL renvoie les enregistrements correspondants, les informations d’identification sont valides, et le code PHP évalue la condition de tentative de connexion comme vraie.</p>
+<p>Si la condition est « True », l’enregistrement de l’administrateur est renvoyé, et notre connexion est validée.</p>
+<p>Au contraire, lorsque de mauvaises informations de connexion sont renseignées, la connexion échoue et la base de données renvoie « False ».</p>
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<h3 id="attaque-par-injection-sql-avec-lopérateur-or">Attaque par injection SQL avec l’opérateur OR</h3>
+<p>Pour contourner l’authentification, il faudrait que la requête renvoie « True », quels que soient le nom d’utilisateur et le mot de passe saisis. Pour ce faire, nous pouvons abuser de l’opérateur OR dans notre injection SQL.</p>
+<p>La documentation MySQL indique que l’opérateur AND est évalué avant l’opérateur OR. Cela signifie que s’il y a au moins une condition « True » dans la requête avec un opérateur OR, la requête sera évaluée comme « True » puisque l’opérateur OR renvoie « True » si l’un de ses opérandes est vrai.</p>
+<p>Un exemple de condition qui renvoie toujours TRUE est 1=1. Toutefois, pour que la requête SQL continue de fonctionner et que le nombre de guillemets soit pair, au lieu d’utiliser (‘1’=’1’), nous supprimerons le dernier guillemet et utiliserons (‘1’=’1), de sorte que le guillemet unique restant de la requête originale sera à sa place.</p>
+<p><img src="/_resources/b795a5cb72064b90a280946bb1826615.png" /></p>
+<img width="710" height="185" src="/_resources/b8f80126a8d9443cbaada9433a50ddd1.png" class="jop-noMdConv" />
+<img width="710" height="294" src="/_resources/98c0edb04fd74bb5963151265e67a0fb.png" class="jop-noMdConv" />
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<p>L’opérateur AND sera évalué en premier, et il renverra « False ». Ensuite, l’opérateur OR sera évalué, et si l’une des déclarations est vraie, il renverra « True ». Puisque 1=1 renvoie toujours « True », cette requête renverra vrai et nous donnera l’accès.</p>
+<p><img src="/_resources/b98934bc14ba4f72b62046439a6ddd62.png" /></p>
+<p>Note : La payload que nous avons utilisé ci-dessus est l’<a title="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection" href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection">une des nombreuses payloads de contournement d’authentification</a> que nous pouvons utiliser pour contourner la logique d’authentification.</p>
+<p>Si le nom d’utilisateur n’est pas valide, la connexion va échouer parce qu’il n’existe pas dans la table et a donné lieu à une fausse requête globale.</p>
+<p><img src="/_resources/52c11cea1449472f87dc9f031ec213da.png" /></p>
+<img width="710" height="293" src="/_resources/821b97eb7f35441398a0dfda1ceda89b.png" class="jop-noMdConv" />
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<h3 id="contournement-de-lauthentification-avec-des-commentaires">Contournement de l’authentification avec des commentaires</h3>
+<p>Comme tout autre langage, SQL permet également l’utilisation de commentaires.<br />
+Les commentaires sont utilisés pour documenter les requêtes ou ignorer une certaine partie de la requête.<br />
+Nous pouvons utiliser deux types de commentaires avec MySQL : <strong>—</strong> et <strong>#</strong>.</p>
+<img width="710" height="339" src="/_resources/7baea870844e4c93a80cbb6ccbf56f99.png" class="jop-noMdConv" />
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<p>Comme nous pouvons le voir, le reste de la requête est maintenant ignoré et le mot de passe n’est plus vérifié.<br />
+De cette façon, nous pouvons nous assurer que la requête ne présente aucun problème de syntaxe.</p>
+<img width="710" height="546" src="/_resources/482a737518464b829e0c0b8f77225227.png" class="jop-noMdConv" />
+<img width="710" height="253" src="/_resources/bc182543969f4e209cbc328c2f07d22d.png" class="jop-noMdConv" />
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<h2 id="focus-sur-les-attaques-par-injection-sql-avec-union-union-based-sqli">Focus sur les attaques par injection SQL avec UNION (Union Based SQLi)</h2>
+<p>Un autre type d’injection SQL consiste à <strong>injecter des requêtes SQL entières</strong> exécutées en même temps que la requête originale.</p>
+<p>La clause <strong>UNION</strong> est utilisée pour combiner les résultats de plusieurs instructions SELECT. Cela signifie que grâce à une injection UNION, nous serons en mesure de sélectionner et d’extraire des données de l’ensemble de la base de données.</p>
+<img width="710" height="390" src="/_resources/d70009c2ff034bbdb7e7f169abaf2e8e.png" class="jop-noMdConv" />
+<p>UNION a combiné la sortie des deux instructions SELECT en une seule, ainsi les entrées des tables ont été combinées en une seule sortie.</p>
+<p>Une instruction UNION ne peut fonctionner que sur des instructions SELECT comportant un nombre égal de colonnes. L’UNION de deux requêtes qui ont des résultats avec un nombre de colonnes différentes renverra une erreur.</p>
+<p>S’il y a plus de colonnes dans la table de la requête originale, il faut ajouter d’autres chiffres afin de créer les colonnes restantes requises.</p>
+<img width="710" height="360" src="/_resources/33ce1349f0ad4c3b9cf8ba7dd1ce5eeb.png" class="jop-noMdConv" />
+<p>Comme nous pouvons le voir, le résultat souhaité de la requête se trouve dans la première colonne de la deuxième ligne, tandis que les chiffres remplissent les autres colonnes.</p>
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<h3 id="identification-du-nombre-de-colonnes">Identification du nombre de colonnes</h3>
+<p>Afin d’exploiter les requêtes basées sur la clause UNION, il faut trouver le nombre de colonnes sélectionnées par le serveur. Il existe deux méthodes pour détecter ce nombre :</p>
+<ul>
+<li>En utilisant ORDER BY</li>
+<li>En utilisant UNION</li>
+</ul>
+<h3 id="utilisation-de-order-by">Utilisation de ORDER BY</h3>
+<p>La première façon de détecter le nombre de colonnes est la clause ORDER BY. La requête injectée va trier les résultats par le nombre de colonne que nous avons spécifiée jusqu’à ce que nous obtenions une erreur indiquant que la colonne spécifiée n’existe pas. La dernière colonne par laquelle nous avons réussi à trier nous donne le nombre total de colonnes.</p>
+<p><img src="/_resources/c8e01414035548269f20dabbf8c0754b.png" /></p>
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<h3 id="utilisation-de-union">Utilisation de UNION</h3>
+<p>L’autre méthode consiste à utiliser la clause UNION avec un nombre différent de colonnes jusqu’à ce que nous obtenions les résultats avec succès. Contrairement à la méthode précédente, celle-ci donne toujours une erreur jusqu’à ce que nous obtenions le bon nombre de colonnes.</p>
+<img width="710" height="327" src="/_resources/40288b15b25b4578a724415dd99a3ffe.png" class="jop-noMdConv" />
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<h3 id="localisation-de-linjection">Localisation de l’injection</h3>
+<p>Alors qu’une requête peut renvoyer plusieurs colonnes, l’application web peut n’en afficher que certaines. Ainsi, si nous injectons notre requête dans une colonne qui n’est pas affichée sur la page, nous n’obtiendrons pas son résultat. C’est pourquoi nous devons déterminer quelles colonnes sont présentes sur la page, afin de déterminer où placer notre injection.</p>
+<img width="710" height="358" src="/_resources/7b3e83da5c9e432d9498d374c2546470.png" class="jop-noMdConv" />
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<h2 id="énumération-de-la-base-de-données-suite-à-un-sqli">Énumération de la base de données suite à un SQLi</h2>
+<p>Avant d’énumérer la base de données, nous devons identifier le type de Système de Gestion de Base de Données (SGBD) afin de savoir quelles requêtes utiliser.</p>
+<p>Si le serveur web que nous voyons dans les réponses HTTP est Apache ou Nginx, il est probable que le serveur web soit sous Linux, et donc que le SGBD soit MySQL. Il en va de même pour le SGBD Microsoft si le serveur web est IIS, il s’agit donc probablement de MSSQL. Il existe donc différentes requêtes que nous pouvons tester pour déterminer le type de base de données.</p>
+<p>Maintenant, pour extraire des données des tables à l’aide de UNION SELECT, nous devons former correctement nos requêtes SELECT. Pour ce faire, nous devons disposer de :</p>
+<ul>
+<li>La liste des bases de données</li>
+<li>La liste des tables de chaque base de données</li>
+<li>La liste des colonnes de chaque table</li>
+</ul>
+<p>Avec les informations ci-dessus, nous pourrons formuler notre instruction SELECT pour extraire toutes les données.</p>
+<p>La base de données INFORMATION_SCHEMA contient des métadonnées sur les bases de données et les tables présentes sur le serveur. Cette base de données joue un rôle crucial dans l’exploitation des vulnérabilités par injection SQL.</p>
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<h3 id="schema">Schema</h3>
+<p>Pour trouver quelles bases de données sont disponibles sur le SGBD, nous pouvons utiliser INFORMATION_SCHEMA.SCHEMATA, qui contient des informations sur toutes les bases de données du serveur.</p>
+<img width="710" height="379" src="/_resources/6da5c7e68b9c4df2863324b07bfd1b3e.png" class="jop-noMdConv" />
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<h3 id="tables">Tables</h3>
+<p>Pour trouver toutes les tables d’une base de données, nous pouvons utiliser INFORMATION_SCHEMA.TABLES. Cette opération peut être effectuée de la même manière que celle qui a permis de trouver les noms des bases de données.</p>
+<img width="710" height="254" src="/_resources/840a5ac5181e46dcac2a974e24dabeec.png" class="jop-noMdConv" />
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<h3 id="colonnes">Colonnes</h3>
+<p>Pour trouver les noms des colonnes de la table, nous pouvons utiliser la table COLUMNS de la base de données INFORMATION_SCHEMA. Elle contient des informations sur toutes les colonnes présentes dans toutes les bases de données.</p>
+<img width="710" height="271" src="/_resources/b84e21bf5d3742a2aa7bd8f3cccc71f3.png" class="jop-noMdConv" />
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<h3 id="données">Données</h3>
+<p>Maintenant que toutes les informations sont réunies, nous pouvons former notre requête UNION pour extraire les données des de la base de données.</p>
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<h2 id="lecture-de-fichiers-suite-à-une-sqli">Lecture de fichiers suite à une SQLi</h2>
+<p>Une injection SQL peut également être utilisée pour effectuer de nombreuses autres opérations, telles que la lecture et l’écriture de fichiers sur le serveur et même l’exécution de code à distance sur le serveur.</p>
+<p>La lecture de données est beaucoup plus courante que l’écriture de données, qui est strictement réservée aux utilisateurs privilégiés dans les SGBD modernes, car elle peut conduire à l’exploitation du système. Dans MySQL, l’utilisateur de la base de données doit disposer du privilège FILE pour charger le contenu d’un fichier dans une table.</p>
+<p>Plusieurs requêtes SQL permettent de déterminer quel utilisateur exécute les requêtes.</p>
+<p>On peut désormais lister les privilèges des utilisateurs. Nous constatons que le privilège FILE est listé pour notre utilisateur, ce qui nous permet de lire des fichiers et même potentiellement d’en écrire.</p>
+<img width="710" height="666" src="/_resources/2a0df6c386864cd8af79032ad777e92b.png" class="jop-noMdConv" />
+<p>Grâce à ce privilège FILE, un utilisateur est capable de lire les fichiers du serveur.</p>
+<img width="710" height="244" src="/_resources/5d4df4e3e7d74b54a7e38ac326fff54e.png" class="jop-noMdConv" />
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<h2 id="écriture-dans-des-fichiers-suite-à-une-sqli">Écriture dans des fichiers suite à une SQLi</h2>
+<p>L’écriture de fichiers sur le serveur peut être utilisé pour écrire un webshell sur le serveur distant, ce qui permettra d’exécuter du code et de prendre le contrôle du serveur.</p>
+<p>De la même manière que pour la lecture de fichiers, si l’utilisateur possède les privilèges suivants, il sera capable d’écrire sur le serveur :</p>
+<ul>
+<li>Privilège FILE activé</li>
+<li>Variable globale MySQL secure_file_priv n’étant pas activée.</li>
+<li>Un accès en écriture à l’emplacement où il veut écrire sur le serveur.</li>
+</ul>
+<p>L’instruction SELECT INTO OUTFILE peut être utilisée pour écrire des données dans des fichiers à partir de requêtes de sélection. Elle est généralement utilisée pour exporter des données depuis des tables.</p>
+<img width="710" height="381" src="/_resources/c91eb20b22604e7c89d635edf5ac29d5.png" class="jop-noMdConv" />
+<p>Un attaquant peut ainsi uploader un webshell et ainsi accéder au serveur.</p>
+<img width="710" height="388" src="/_resources/3e2c2736a86547fa925d0b4cf56bf00d.png" class="jop-noMdConv" />
+<img width="710" height="174" src="/_resources/04114d9c4edb49238449966dc79492aa.png" class="jop-noMdConv" />
+</div>
+      </article>
+    </div>
+  </body>
+</html>

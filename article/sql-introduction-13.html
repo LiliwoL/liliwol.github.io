@@ -2,28 +2,40 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+
+<!--Meta Keywords and Description-->
+<meta name="keywords" content="formateur php symfony BTS Angular VueJS">
+<meta name="description" content="">
+
+<!--Favicon-->
+<link rel="shortcut icon" href="/_assets/img/favicon.ico" title="Favicon"/>
+
 <link rel="stylesheet" href="/_assets/main.css" />
     <title>SQL Introduction 1/3 - LiliwoL</title>
   <link rel="stylesheet" href="/_markdown_plugin_assets/highlight.js/atom-one-light.css" /></head>
+
   <body>
+
     <div class="main">
+
       <nav class="navigation">
         <a href="/">LiliwoL</a>
       </nav>
+
       <article>
         <header>
           <h1 class="article-title">SQL Introduction 1/3</h1>
           <div class="article-info">
             <div>
               <span
-                >Created At：<time datetime="1668768263433"
+                >Créé le：<time datetime="1668768263433"
                   >2022-11-18 11:44</time
                 ></span
               >
               <span
-                >Updated At：<time datetime="1668781165714"
+                >Mis à jour：<time datetime="1668781165714"
                   >2022-11-18 15:19</time
                 ></span
               >
@@ -32,11 +44,11 @@
           </div>
         </header>
         <div class="article-content markdown-body"><h1 id="découverte-du-langage-sql">Découverte du langage SQL</h1>
-<nav class="table-of-contents"><ul><li><a href="#découverte-du-langage-sql">Découverte du langage SQL</a><ul><li><a href="#créer-la-base-de-données">Créer la base de données.</a></li><li><a href="#créer-une-table">Créer une table</a><ul><li><a href="#quelques-explications">Quelques explications :</a></li><li><a href="#primary-key-ou-clé-primaire">PRIMARY KEY ou Clé Primaire</a></li></ul></li><li><a href="#insérer-des-enregistrements-dans-la-table">Insérer des enregistrements dans la table</a><ul><li><a href="#quelques-explications-1">Quelques explications :</a></li></ul></li><li><a href="#lire-le-contenu-dune-table">Lire le contenu d’une table</a></li><li><a href="#a-vous-de-jouer">A vous de jouer</a><ul><li><a href="#foreign-key-ou-clé-étrangère">FOREIGN KEY ou Clé étrangère</a></li></ul></li><li><a href="#a-vous-de-jouer-1">A vous de jouer</a><ul><li><a href="#la-table-livres">La table LIVRES</a><ul><li><a href="#wrench-travail-à-réaliser">🔧 Travail à réaliser</a></li></ul></li><li><a href="#la-table-themes">La table Themes</a><ul><li><a href="#wrench-travail-à-réaliser-1">🔧 Travail à réaliser</a></li></ul></li><li><a href="#une-table-manquante">Une table manquante !</a><ul><li><a href="#wrench-travail-à-réaliser-2">🔧 Travail à réaliser</a></li></ul></li></ul></li><li><a href="#cardinalité">Cardinalité</a><ul><li><a href="#a-vous-de-jouer-2">A vous de jouer</a></li><li><a href="#table-de-relation">Table de relation</a></li></ul></li><li><a href="#correction">Correction</a></li></ul></li></ul></nav><hr />
+<nav class="table-of-contents"><ul><li><a href="#découverte-du-langage-sql">Découverte du langage SQL</a><ul><li><a href="#créer-la-base-de-données">Créer la base de données.</a></li><li><a href="#créer-une-table">Créer une table</a><ul><li><a href="#quelques-explications">Quelques explications :</a></li><li><a href="#primary-key-ou-clé-primaire">PRIMARY KEY ou Clé Primaire</a></li></ul></li><li><a href="#insérer-des-enregistrements-dans-la-table">Insérer des enregistrements dans la table</a><ul><li><a href="#quelques-explications-1">Quelques explications :</a></li></ul></li><li><a href="#lire-le-contenu-dune-table">Lire le contenu d'une table</a></li><li><a href="#a-vous-de-jouer">A vous de jouer</a><ul><li><a href="#foreign-key-ou-clé-étrangère">FOREIGN KEY ou Clé étrangère</a></li></ul></li><li><a href="#a-vous-de-jouer-1">A vous de jouer</a><ul><li><a href="#la-table-livres">La table LIVRES</a><ul><li><a href="#wrench-travail-à-réaliser">🔧 Travail à réaliser</a></li></ul></li><li><a href="#la-table-themes">La table Themes</a><ul><li><a href="#wrench-travail-à-réaliser-1">🔧 Travail à réaliser</a></li></ul></li><li><a href="#une-table-manquante">Une table manquante !</a><ul><li><a href="#wrench-travail-à-réaliser-2">🔧 Travail à réaliser</a></li></ul></li></ul></li><li><a href="#cardinalité">Cardinalité</a><ul><li><a href="#a-vous-de-jouer-2">A vous de jouer</a></li><li><a href="#table-de-relation">Table de relation</a></li></ul></li><li><a href="#correction">Correction</a></li></ul></li></ul></nav><hr />
 <p>Dans ce TP jous allons découvrir le langage <strong>SQL</strong> (<em>Structured Query Language</em>) qui est le langage utilisé pour effectuer des requêtes sur une base de données relationnelles.</p>
 <p>Nous apprendrons lors de ce TP à:</p>
 <ul>
-<li>créer des tables avec les attributs que l’on souhaite</li>
+<li>créer des tables avec les attributs que l'on souhaite</li>
 <li>insérer des enregistrements</li>
 <li>faire des requêtes sur la base pour extraire des informations</li>
 </ul>
@@ -45,7 +57,7 @@
 <p>Nous allons commencer par créer une base vide dans laquelle nous allons travailler :</p>
 <div><pre class="hljs"><code><span class="hljs-comment">/* Create database */</span>
 <span class="hljs-keyword">CREATE</span> DATABASE Livres;</code></pre></div>
-<p>La base s’appelle <strong>Livres</strong>.</p>
+<p>La base s'appelle <strong>Livres</strong>.</p>
 <p>Cette base sera constituée de 4 tables :</p>
 <ul>
 <li>Auteurs</li>
@@ -76,9 +88,9 @@
 <li>le type <strong>INTEGER</strong> pour les entiers</li>
 </ul>
 <h3 id="primary-key-ou-clé-primaire">PRIMARY KEY ou Clé Primaire</h3>
-<p>L’attribut <strong>IdLangue</strong> est la <em>clé primaire</em> de la table.
-C’est un entier qui commence à 1 et qui sera <strong>automatiquement incrémenté</strong> au fur à mesure que l’on insère des données dans la table.
-C’est en indiquant <code>PRIMARY KEY</code> après le type dans la déclaration de l’attribut <strong>IdLangue</strong> que le système de base de données se comporte ainsi.</p>
+<p>L'attribut <strong>IdLangue</strong> est la <em>clé primaire</em> de la table.<br />
+C'est un entier qui commence à 1 et qui sera <strong>automatiquement incrémenté</strong> au fur à mesure que l'on insère des données dans la table.<br />
+C'est en indiquant <code>PRIMARY KEY</code> après le type dans la déclaration de l'attribut <strong>IdLangue</strong> que le système de base de données se comporte ainsi.</p>
 <hr />
 <h2 id="insérer-des-enregistrements-dans-la-table">Insérer des enregistrements dans la table</h2>
 <p>Maintenant que nous avons une table vide, il nous faut la remplir avec les données sur les auteurs.</p>
@@ -90,7 +102,7 @@ C’est en indiquant <code>PRIMARY KEY</code> après le type dans la déclaratio
     ("Français");</code></pre></div>
 <hr />
 <h3 id="quelques-explications-2">Quelques explications :</h3>
-<p>La requête <strong>INSERT</strong> s’utilise ainsi :</p>
+<p>La requête <strong>INSERT</strong> s'utilise ainsi :</p>
 <div><pre class="hljs"><code><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> ##<span class="hljs-keyword">TABLE</span>##
     (## attributs dont <span class="hljs-keyword">on</span> donne les valeurs##)
 <span class="hljs-keyword">VALUES</span>
@@ -98,20 +110,20 @@ C’est en indiquant <code>PRIMARY KEY</code> après le type dans la déclaratio
     ...
     (## enregistrement n ##);</code></pre></div>
 <p>On peut refaire une autre requête <strong>INSERT</strong> à la suite si on souhaite ajouter encore des données au bout de la table.</p>
-<p>Vous remarquez que l’on ne donne pas de valeur pour l’attribut <strong>IdLangue</strong>. C’est parce qu’on l’a déclaré en <code>PRIMARY KEY</code>.
+<p>Vous remarquez que l'on ne donne pas de valeur pour l'attribut <strong>IdLangue</strong>. C'est parce qu'on l'a déclaré en <code>PRIMARY KEY</code>.<br />
 Il est donc <strong>automatiquement géré</strong> par le système de base de données.</p>
 <p>Nous verrons cela en lisant le contenu complet de la table.</p>
-<p>On est pas obligé de préciser tous les attributs.
-<strong>IdLangue</strong> est un exemple particulier, mais il est possible d’omettre d’autres attributs.
-Ils seront alors affectés d’une valeur <strong>nulle</strong>.</p>
-<p>A l’issue de la requête, le serveur nous informe que 2 lignes ont été créées.</p>
+<p>On est pas obligé de préciser tous les attributs.<br />
+<strong>IdLangue</strong> est un exemple particulier, mais il est possible d'omettre d'autres attributs.<br />
+Ils seront alors affectés d'une valeur <strong>nulle</strong>.</p>
+<p>A l'issue de la requête, le serveur nous informe que 2 lignes ont été créées.</p>
 <p><img src="/_resources/e9ba99920ce14809960d7fbda82e236f.png" /></p>
 <hr />
-<h2 id="lire-le-contenu-dune-table">Lire le contenu d’une table</h2>
+<h2 id="lire-le-contenu-dune-table">Lire le contenu d'une table</h2>
 <p>Nous allons à présent utiliser une requête <strong>SELECT</strong> afin de récupérer le contenu de la table.</p>
 <p>Ces requêtes peuvent être très sophistiquées comme on va le voir en fin de TP. Pour le moment, nous nous contenterons de la forme la plus simple :</p>
 <div><pre class="hljs"><code><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> Langues;</code></pre></div>
-<p>Vous voyez donc appraître le contenu de la table.
+<p>Vous voyez donc appraître le contenu de la table.<br />
 Vous constatez que la clé primaire <strong>IdLangue</strong> a bien été générée correctement.</p>
 <p><img src="/_resources/a7c58c6511234c579c96115154a4a91c.png" /></p>
 <hr />
@@ -199,16 +211,16 @@ Vous constatez que la clé primaire <strong>IdLangue</strong> a bien été gén�
     <span class="hljs-keyword">FOREIGN</span> KEY(IdLangue) <span class="hljs-keyword">REFERENCES</span> Langues(IdLangue)
 );</code></pre></div>
 <h3 id="foreign-key-ou-clé-étrangère">FOREIGN KEY ou Clé étrangère</h3>
-<p>Une nouveauté apparaît ici dans la création de la table :
+<p>Une nouveauté apparaît ici dans la création de la table :<br />
 La table <strong>Auteurs</strong> possède une <em><strong>clé étangère</strong></em> : <em>IdLangue</em>.</p>
 <p>Cette clé est un entier.</p>
 <p>Remarquez la ligne <code>FOREIGN KEY(IdLangue) REFERENCES Langues(IdLangue)</code>.</p>
-<p>Celle-ci permet de déclarer une <em>contrainte</em> sur cette clé afin d’indiquer àau serveur que <em>IdLangue</em> est une <strong>clé étrangère</strong>.</p>
-<p>Le serveur sera alors r<strong>esponsable de maintenir la cohérence entre les deux tables</strong> que l’on a ainsi reliée.</p>
-<p>Cette déclaration n’est pas obligatoire mais <strong>fortement conseillée</strong>.</p>
+<p>Celle-ci permet de déclarer une <em>contrainte</em> sur cette clé afin d'indiquer àau serveur que <em>IdLangue</em> est une <strong>clé étrangère</strong>.</p>
+<p>Le serveur sera alors r<strong>esponsable de maintenir la cohérence entre les deux tables</strong> que l'on a ainsi reliée.</p>
+<p>Cette déclaration n'est pas obligatoire mais <strong>fortement conseillée</strong>.</p>
 <hr />
 <h2 id="a-vous-de-jouer-2">A vous de jouer</h2>
-<p>Notre base n’est pas encore complète :
+<p>Notre base n'est pas encore complète :<br />
 il nous reste à créer les tables <strong>Livres</strong> et <strong>Themes</strong> qui doivent refléter le contenu suivant :</p>
 <table>
 <thead>
@@ -371,7 +383,7 @@ il nous reste à créer les tables <strong>Livres</strong> et <strong>Themes</st
 </table>
 <hr />
 <h3 id="la-table-livres">La table LIVRES</h3>
-<p>La table <strong>LIVRES</strong> devra avoir la structure décrite dans l’extrait suivant :</p>
+<p>La table <strong>LIVRES</strong> devra avoir la structure décrite dans l'extrait suivant :</p>
 <table>
 <thead>
 <tr>
@@ -383,10 +395,10 @@ il nous reste à créer les tables <strong>Livres</strong> et <strong>Themes</st
 </thead>
 <tbody>
 <tr>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
 </tr>
 <tr>
 <td>8</td>
@@ -395,20 +407,20 @@ il nous reste à créer les tables <strong>Livres</strong> et <strong>Themes</st
 <td>1968</td>
 </tr>
 <tr>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
 </tr>
 </tbody>
 </table>
 <ul>
-<li>l’année de publication est de type <strong>INTEGER</strong></li>
+<li>l'année de publication est de type <strong>INTEGER</strong></li>
 <li><strong>IdLivre</strong> désigne bien sûr la clé primaire</li>
-<li><strong>IdAuteur</strong> est une <em>clé externe</em> faisant référence à l’auteur.</li>
-<li>dans l’extrait, la clé <strong>IdAuteur</strong> vaut 7. L’auteur de <em>La nuit des temps</em> est donc <em>Barjavel</em></li>
-<li>on ne renseigne pas la langue ou l’année de naissance de l’auteur car ces informations sont déjà présentes dans la table <strong>Auteurs</strong>.</li>
-<li>On traitera la problématique des thèmes plus tard…</li>
+<li><strong>IdAuteur</strong> est une <em>clé externe</em> faisant référence à l'auteur.</li>
+<li>dans l'extrait, la clé <strong>IdAuteur</strong> vaut 7. L'auteur de <em>La nuit des temps</em> est donc <em>Barjavel</em></li>
+<li>on ne renseigne pas la langue ou l'année de naissance de l'auteur car ces informations sont déjà présentes dans la table <strong>Auteurs</strong>.</li>
+<li>On traitera la problématique des thèmes plus tard...</li>
 </ul>
 <p>Dans la cellule ci-dessous, saisissez la requête pour créer la table <strong>Livres</strong></p>
 <div><pre class="hljs"><code><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> Livres (
@@ -420,7 +432,7 @@ il nous reste à créer les tables <strong>Livres</strong> et <strong>Themes</st
 );</code></pre></div>
 <p>On commence à avoir les liaisons entre les tables correpondant à:</p>
 <p><img src="/_resources/491765d9614a415e9f816ab57b7b0c84.png" /></p>
-<p>A présent, saisissez les données à l’intérieur des tables.</p>
+<p>A présent, saisissez les données à l'intérieur des tables.</p>
 <div><pre class="hljs"><code># Dans la <span class="hljs-keyword">table</span> Auteurs
 <span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> `Auteurs` (`NomAuteur`, `PrenomAuteur`, `IdLangue`, `AnneeNaissance`) <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">'Orwell'</span>, <span class="hljs-string">'George'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-string">'1903'</span>);
 
@@ -444,13 +456,13 @@ il nous reste à créer les tables <strong>Livres</strong> et <strong>Themes</st
 <hr />
 <blockquote>
 <h4 id="wrench-travail-à-réaliser">🔧 <strong>Travail à réaliser</strong></h4>
-<p>Complétez la saisie avec toutes les données fournies dans le tableau global pour vous entraîner.
+<p>Complétez la saisie avec toutes les données fournies dans le tableau global pour vous entraîner.<br />
 Tous les livres, tous les auteurs.</p>
 </blockquote>
 <hr />
 <h3 id="la-table-themes">La table Themes</h3>
 <p>Traitons à présent la problématique des <strong>Thèmes</strong>.</p>
-<p>La table <strong>Themes</strong> devra avoir la structure décrite dans l’extrait suivant :</p>
+<p>La table <strong>Themes</strong> devra avoir la structure décrite dans l'extrait suivant :</p>
 <table>
 <thead>
 <tr>
@@ -464,14 +476,14 @@ Tous les livres, tous les auteurs.</p>
 <td>Science-fiction</td>
 </tr>
 <tr>
-<td>…</td>
-<td>…</td>
+<td>...</td>
+<td>...</td>
 </tr>
 </tbody>
 </table>
 <ul>
 <li><strong>IdTheme</strong> désigne bien sûr la <strong>clé primaire</strong></li>
-<li><strong>Intitule</strong> est un champ texte contenant l’<strong>intitulé</strong> du thème tel qu’il apparaît dans le tableau global.</li>
+<li><strong>Intitule</strong> est un champ texte contenant l'<strong>intitulé</strong> du thème tel qu'il apparaît dans le tableau global.</li>
 </ul>
 <p>Vous saisirez donc 2 requêtes :</p>
 <ul>
@@ -485,7 +497,7 @@ Tous les livres, tous les auteurs.</p>
 <hr />
 <blockquote>
 <h4 id="wrench-travail-à-réaliser-2">🔧 <strong>Travail à réaliser</strong></h4>
-<p>Réalisez la requête d’insertion des données dans la table <strong>Themes</strong></p>
+<p>Réalisez la requête d'insertion des données dans la table <strong>Themes</strong></p>
 </blockquote>
 <div><pre class="hljs"><code><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> `Themes` (`Intitule`) <span class="hljs-keyword">VALUES</span>
 (<span class="hljs-string">'Science-fiction'</span>), (<span class="hljs-string">'Totalitarisme'</span>), (<span class="hljs-string">'Anticipation'</span>), (<span class="hljs-string">'Dystopie'</span>), (<span class="hljs-string">'Economie'</span>), (<span class="hljs-string">'Tragédie'</span>), (<span class="hljs-string">'Intelligence artificielle'</span>), (<span class="hljs-string">'Uchronie'</span>), (<span class="hljs-string">'Voyage dans le temps'</span>), ( <span class="hljs-string">'Aventure'</span>);</code></pre></div>
@@ -518,11 +530,11 @@ Tous les livres, tous les auteurs.</p>
 <h2 id="cardinalité">Cardinalité</h2>
 <p>En regardant notre base de données et les relations que nous avons créé entre les tables, on remarque que celles-ci ont des <em>cardinalités</em> différentes.</p>
 <blockquote>
-<p>La <em>cardinalité</em> d’une relation entre deux tables <strong>A</strong> et <strong>B</strong> exprime à combien d’enregistrements de <strong>A</strong> peut être relié chaque enregistrement de <strong>B</strong>.</p>
+<p>La <em>cardinalité</em> d'une relation entre deux tables <strong>A</strong> et <strong>B</strong> exprime à combien d'enregistrements de <strong>A</strong> peut être relié chaque enregistrement de <strong>B</strong>.</p>
 </blockquote>
-<p>Par exemple, à un <strong>livre</strong> est associé un <strong>auteur</strong> unique, mais pour un auteur donné, il peut y avoir plusieurs livres.
+<p>Par exemple, à un <strong>livre</strong> est associé un <strong>auteur</strong> unique, mais pour un auteur donné, il peut y avoir plusieurs livres.<br />
 On parle alors de <strong>relation de 1 à n</strong></p>
-<p>Lorsque plusieurs enregistrements de la table <strong>A</strong> peuvent être associés à plusieurs enregistrements de la table <strong>B</strong>, on parle alors d’une <strong>relation de n à n</strong></p>
+<p>Lorsque plusieurs enregistrements de la table <strong>A</strong> peuvent être associés à plusieurs enregistrements de la table <strong>B</strong>, on parle alors d'une <strong>relation de n à n</strong></p>
 <hr />
 <h3 id="a-vous-de-jouer-3">A vous de jouer</h3>
 <p>Citez dans la base de données</p>
@@ -532,8 +544,8 @@ On parle alors de <strong>relation de 1 à n</strong></p>
 </ul>
 <hr />
 <h3 id="table-de-relation">Table de relation</h3>
-<p>Pour une <strong>relation de n à n</strong>, nous aurons en général recours à la création d’une <strong>nouvelle table de relation</strong> contenant les clés externes des tables à mettre en relation.</p>
-<p>C’est ce que nous avons mis en oeuvre pour la table <strong>RelationsLivreTheme</strong>.</p>
+<p>Pour une <strong>relation de n à n</strong>, nous aurons en général recours à la création d'une <strong>nouvelle table de relation</strong> contenant les clés externes des tables à mettre en relation.</p>
+<p>C'est ce que nous avons mis en oeuvre pour la table <strong>RelationsLivreTheme</strong>.</p>
 <hr />
 <h2 id="correction">Correction</h2>
 <div><pre class="hljs"><code><span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS<span class="hljs-operator">=</span><span class="hljs-number">0</span>;

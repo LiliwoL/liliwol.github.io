@@ -35,8 +35,8 @@
                 ></span
               >
               <span
-                >Mis à jour：<time datetime="1662307465898"
-                  >2022-09-04 18:04</time
+                >Mis à jour：<time datetime="1672316195216"
+                  >2022-12-29 13:16</time
                 ></span
               >
             </div>
@@ -44,17 +44,23 @@
           </div>
         </header>
         <div class="article-content markdown-body"><h1 id="dhcp-dynamic-host-configuration-protocol">DHCP - Dynamic Host Configuration Protocol</h1>
-<nav class="table-of-contents"><ul><li><a href="#dhcp-dynamic-host-configuration-protocol">DHCP - Dynamic Host Configuration Protocol</a><ul><li><a href="#commandes-à-connaître">Commandes à connaître</a></li><li><a href="#quest-ce-que-le-dhcp">Qu'est ce que le DHCP?</a></li><li><a href="#avantages">Avantages</a></li><li><a href="#fonctionnement">Fonctionnement</a></li><li><a href="#si-aucun-serveur-dhcp-ne-répond">Si aucun serveur DHCP ne répond?</a></li><li><a href="#fonctionnalités-principales">Fonctionnalités principales</a></li></ul></li></ul></nav><hr />
+<nav class="table-of-contents"><ul><li><a href="#dhcp-dynamic-host-configuration-protocol">DHCP - Dynamic Host Configuration Protocol</a><ul><li><a href="#vidéo-explicative">Vidéo explicative</a></li><li><a href="#commandes-à-connaître">Commandes à connaître</a></li><li><a href="#tp-associé">TP associé</a></li><li><a href="#quest-ce-que-le-dhcp">Qu'est ce que le DHCP?.</a></li><li><a href="#avantages">Avantages.</a></li><li><a href="#fonctionnement">Fonctionnement.</a></li><li><a href="#si-aucun-serveur-dhcp-ne-répond">Si aucun serveur DHCP ne répond?.</a></li><li><a href="#fonctionnalités-principales">Fonctionnalités principales.</a></li></ul></li></ul></nav><hr />
+<h2 id="vidéo-explicative">Vidéo explicative</h2>
+<p><a title="https://www.youtube.com/watch?v=yH9UvkeAz-I" href="https://www.youtube.com/watch?v=yH9UvkeAz-I">https://www.youtube.com/watch?v=yH9UvkeAz-I</a></p>
 <h2 id="commandes-à-connaître">Commandes à connaître</h2>
 <p><code>ìpconfig</code></p>
+<h2 id="tp-associé">TP associé</h2>
+<p><a href="/article/sserveur-dhcp-sur-windows">10. Serveur DHCP sur Windows</a><br />
+<a>10.1. Client DHCP sur Windows</a></p>
+<p><a>11. Serveur DHCP sur Linux</a></p>
 <hr />
-<h2 id="quest-ce-que-le-dhcp">Qu'est ce que le DHCP?</h2>
+<h2 id="quest-ce-que-le-dhcp">Qu'est ce que le DHCP?.</h2>
 <p>Le service DHCP, ou bien le “Dynamic Host Configuration Protocol” est un service TCP/IP, qu’on installe en général sur une machine <strong>serveur</strong> mais aussi parfois sur un <strong>routeur</strong> (box internet, bornes wifi…) , et qui permet d’<strong>automatiser la configuration réseau</strong> des équipements d’une infrastructure.</p>
 <p>Pour simplifier vulgairement le rôle d’un serveur DHCP dans une infra, disons qu’<strong>il évite aux admins de configurer manuellement tout les postes de travail un par un</strong>.</p>
 <p>En fait le service DHCP va attribuer automatiquement, et de façon totalement transparente pour les utilisateurs, une configuration réseau complète, c’est à dire par exemple une adresse IP, un masque, une adresse de passerelle et une adresse de DNS, à tous les postes clients de l’environnement qui lui en feront la demande.</p>
 <p>On parle alors d’attribution “<strong>dynamique</strong>” d’adresses IP contrairement à une attribution manuelle dite “<strong>statique</strong>” ou “<strong>fixe</strong>“.</p>
 <hr />
-<h2 id="avantages">Avantages</h2>
+<h2 id="avantages">Avantages.</h2>
 <p>Le 1er avantage, comme dit dans le paragraphe précédent, c’est déjà que les techniciens informatiques ne vont pas devoir passer sur l’ensemble des ordinateurs pour leur attribuer une configuration IP manuellement.<br />
 Et croyez moi, quand il y en a 25, c’est déjà assez pénible, mais imaginez quand il y en a 1300…</p>
 <p>Second point, la <strong>gestion de l’adressage IP</strong> de l’environnement est à la fois <strong>automatisée</strong>, mais aussi et surtout <strong>centralisée</strong>.</p>
@@ -68,7 +74,7 @@ Et croyez moi, quand il y en a 25, c’est déjà assez pénible, mais imaginez 
 <p>On résume les principaux avantages du DHCP :</p>
 <p><img src="/_resources/ec9c79f053e3439499c4ec7ddf4df6f6.png" /></p>
 <hr />
-<h2 id="fonctionnement">Fonctionnement</h2>
+<h2 id="fonctionnement">Fonctionnement.</h2>
 <p>Pour qu’un équipement puisse recevoir une configuration réseau, il doit en faire la demande.</p>
 <p>Vous pouvez tout à fait avoir un équipement sur lequel vous configurez vous même l’adressage IP, comme sur un serveur par exemple ou encore un routeur.</p>
 <p>Par défaut, tout les postes de travail sont en attente d’une configuration automatique.</p>
@@ -104,7 +110,7 @@ On récapitule le fonctionnement du DHCP, ou plutôt les échanges entre le clie
 <pre><code>Info + : On rencontrera également d’autres types de requête entre les clients et les serveurs DHCP comme par exemple “DHCP RELEASE” qui spécifie au serveur que le client libère son adresse IP, ou encore “DHCP INFORM” qui est une demande d’un client ayant déjà son adresse IP attribuée mais qui souhaite obtenir les autres informations (pour être à jour au niveau de la configuration réseau dans le cas où le bail n’est pas encore arrivé à terme par exemple).
 </code></pre>
 <hr />
-<h2 id="si-aucun-serveur-dhcp-ne-répond">Si aucun serveur DHCP ne répond?</h2>
+<h2 id="si-aucun-serveur-dhcp-ne-répond">Si aucun serveur DHCP ne répond?.</h2>
 <p>Dans ce cas, vous aurez une adresse attribuée automatiquement dans le réseau <strong>169.254.0.0/16</strong>.</p>
 <p>Ce réseau est spécifique et est connu sous le nom de réseau <strong>APIPA</strong> (“Automatic Private Internet Protocol“).</p>
 <p>APIPA c’est un processus qui permet à un système de s’attribuer lui même une adresse IP lorsqu’aucun serveur DHCP n’est joignable.</p>
@@ -124,7 +130,7 @@ On récapitule le fonctionnement du DHCP, ou plutôt les échanges entre le clie
 <li>…</li>
 </ul>
 <hr />
-<h2 id="fonctionnalités-principales">Fonctionnalités principales</h2>
+<h2 id="fonctionnalités-principales">Fonctionnalités principales.</h2>
 <p>Quand on a déployé le service DHCP dans son infrastructure, la première chose à faire c’est de <strong>créer des étendues pour les réseaux</strong> que l’on veut desservir, et d’y définir des <strong>plages</strong>, aussi appelées des “<strong>pools</strong>” d’adresses IP que le DCHP devra distribuer sur ladite étendue.</p>
 <p><img src="/_resources/30d75baf36e14781a3958ef7e0000b95.png" /></p>
 <p>On peut également attribuer des options à notre étendue comme par exemple l’option “<strong>Routeur</strong>” qui va définir l’adresse de passerelle de ce réseau.<br />

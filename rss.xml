@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title></title>
+        <link>undefined</link>
+        <description>undefined</description>
+        <lastBuildDate>Thu, 10 Oct 2024 10:55:35 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>Joplin Pages Publisher</generator>
+        <item>
+            <title><![CDATA[01. TP - Votre premier serveur Node JS]]></title>
+            <guid>c33607d8c2ca4b279317e42ba8ff297f</guid>
+            <pubDate>Mon, 15 Apr 2024 14:04:57 GMT</pubDate>
+            <content:encoded><![CDATA[<nav class="table-of-contents"><ul><li><a href="#présentation">Présentation</a></li><li><a href="#objectifs">Objectifs</a></li><li><a href="#pré-requis">Pré-requis</a></li><li><a href="#mission-1-créer-un-serveur">Mission 1: Créer un serveur</a><ul><li><a href="#lancer-le-serveur">Lancer le serveur</a></li><li><a href="#accéder-au-serveur">Accéder au serveur</a></li><li><a href="#le-package-nodemon">Le package nodemon</a></li></ul></li><li><a href="#mission-2-gestion-des-urls-avec-le-module-url">Mission 2: Gestion des urls avec le module url</a></li><li><a href="#mission-3-gestion-des-query-params-avec-le-module-querystring">Mission 3: Gestion des query params avec le module querystring</a></li></ul></nav><p>v0.2</p>
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<h1 id="présentation">Présentation</h1>
+<p>Dans ce TP, nous allons mettre en place notre <strong>première application Node JS</strong> .</p>
+<blockquote>
+<p>Vous <strong>devez</strong> travailler</p>
+</blockquote>
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<h1 id="objectifs">Objectifs</h1>
+<p>A la fin du TP, vous aurez appris:</p>
+<ol>
+<li>Comment créer un serveur HTTP en utilisant Node JS</li>
+<li>Lancer un serveur Node JS</li>
+<li>Accéder aux ressources du serveur à partir d'un navigateur</li>
+</ol>
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<h1 id="pré-requis">Pré-requis</h1>
+<ul>
+<li>Les paquets <strong>nodejs</strong> et <strong>npm</strong> doivent être installés sur votre machine de développement<br />
+<code>apt install nodejs npm -y</code></li>
+</ul>
+<blockquote>
+<p>Il peut être nécessaire de redémarrerla WSL pour que le changement du PATH soit pris en compte.</p>
+</blockquote>
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<h1 id="mission-1-créer-un-serveur">Mission 1: Créer un serveur</h1>
+<p>Sur votre machine de dev, créez un dossier <strong>tp2</strong>.<br />
+Dans ce dossier, créez un fichier <code>app.js</code>.</p>
+<div><pre class="hljs"><code><span class="hljs-comment">//Importer le module http</span>
+<span class="hljs-comment">//Il contient toutes les méthodes necessaires</span>
+<span class="hljs-comment">//pour la création d'un serveur ainsi que des requêtes HTTP</span>
+<span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>);
+
+<span class="hljs-comment">//Création du serveur</span>
+<span class="hljs-keyword">const</span> server = http.<span class="hljs-title function_">createServer</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) {
+    res.<span class="hljs-title function_">writeHead</span>(<span class="hljs-number">200</span>, {<span class="hljs-string">"Content-Type"</span>: <span class="hljs-string">"text/plain"</span>});
+ 
+    res.<span class="hljs-title function_">end</span>(<span class="hljs-string">'Hello BTS SIO SLAM !'</span>);
+});
+
+<span class="hljs-comment">//Démarrage du serveur sur le port 8085</span>
+server.<span class="hljs-title function_">listen</span>(<span class="hljs-number">8085</span>);</code></pre></div>
+<blockquote>
+<p>A la ligne 4, on <strong>importe le module http,</strong> necessaire pour la création du serveur ainsi que la gestion des requêtes/réponses HTTP.</p>
+</blockquote>
+<blockquote>
+<p>A la ligne 7, on crée le serveur grâce à la méthode <code>createServer</code> qui retourne une instance du serveur.</p>
+</blockquote>
+<blockquote>
+<p>Finalement, à la ligne 13, on demande au serveur d'<strong>écouter sur le port 8085</strong>.</p>
+</blockquote>
+<p>Essayez de spécifier un autre port <strong>si ce port n'est pas disponible</strong>.</p>
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<h2 id="lancer-le-serveur">Lancer le serveur</h2>
+<p>Ouvrez une console, directement dans VSC et tapez la commande:<br />
+<code>node app.js</code></p>
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<h2 id="accéder-au-serveur">Accéder au serveur</h2>
+<p>A ce stade, un serveur web a été créé et <strong>écoute</strong> les connexions http sur le port <strong>8085</strong>.</p>
+<p>N'ayant pas précisé de nom de domaine, l'adresse du serveur est <em><a title="http://localhost:8085" href="http://localhost:8085">http://localhost:8085</a></em></p>
+<blockquote>
+<p><strong>Travail à faire:</strong></p>
+<ol>
+<li>Que remarquez-vous ?</li>
+<li>Sauriez-vous identifier le contenu qui s'affiche dans la page web dans les sources du serveur <code>app.js</code> ?</li>
+<li>Changer le message <em>'Hello BTS SIO SLAM !'</em> en <em>'Bienvenue sur le site officiel du BTS SIO SLAM'</em>.</li>
+<li>Rechargez la page web ! Le contenu reste le même pourquoi ? Comment y rémédier ?</li>
+</ol>
+</blockquote>
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<h2 id="le-package-nodemon">Le package nodemon</h2>
+<p>Quand on démarre un serveur Node JS avec la commande <strong>node</strong>, les <strong>changements ne sont pas pris en compte</strong> automatiquement.</p>
+<p>On est obligé de <strong>redémarrer le serveur manuellement</strong>, ce qui n'est pas pratique en <strong>phase de développement</strong>.</p>
+<p>Pour y rémédier, nous allons utiliser le paquet <code>nodemon</code> qui remplit les mêmes fonctions que node sauf qu'il <strong>se charge de redémarrer</strong> le serveur à chaque changement dans les sources de l'application.</p>
+<ol>
+<li>
+<p>Pour installer <code>nodemon</code>, on va utiliser le gestionnaire <strong>npm</strong>.</p>
+</li>
+<li>
+<p>Ouvrez une console et tapez:<br />
+<code>npm install -g nodemon</code></p>
+</li>
+<li>
+<p>Une fois l'installation terminée, arrêtez le processus <strong>node</strong> et relancez le serveur en tapant <code>nodemon app.js</code></p>
+</li>
+<li>
+<p>Modifiez le message <em>'Bienvenue sur le site officiel du BTS SIO SLAM'</em> en  <em>'Bienvenue sur le site officiel du BTS SIO SLAM à la Rochelle'</em>.</p>
+</li>
+<li>
+<p>Rechargez la page, que remarquez-vous ?</p>
+</li>
+</ol>
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<h1 id="mission-2-gestion-des-urls-avec-le-module-url">Mission 2: Gestion des urls avec le module <code>url</code></h1>
+<p>Comme vous aviez pu le remarquer, on accède aux ressources du serveur en utilisant des urls.<br />
+Dans cette partie du TP, nous allons voir <strong>comment traiter</strong> ces urls.</p>
+<ol>
+<li>Ouvrez le fichier <code>app.js</code></li>
+<li>Importez le module '<strong>url</strong>' à la ligne 5<br />
+<code>const url = require('url');</code></li>
+<li>Ajoutez à la ligne 10, l'instruction suivante:</li>
+</ol>
+<div><pre class="hljs"><code>    <span class="hljs-keyword">const</span> page = url.<span class="hljs-title function_">parse</span>(req.<span class="hljs-property">url</span>).<span class="hljs-property">pathname</span>;
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">"Page: "</span> + page);</code></pre></div>
+<ol start="4">
+<li>Sauvegardez le changement puis rechargez la page web, que remarquez vous ?</li>
+<li>Ajoutez un paramètre de requête dans l'url (e.g. <a title="http://localhost:8085?test=btssioslam" href="http://localhost:8085?test=btssioslam">http://localhost:8085?test=btssioslam</a>); que remarquez-vous ?</li>
+</ol>
+<hr />
+<div style="page-break-after:always" class="jop-noMdConv"></div>
+<h1 id="mission-3-gestion-des-query-params-avec-le-module-querystring">Mission 3: Gestion des query params avec le module <code>querystring</code></h1>
+<ol>
+<li>Importez le module <code>querystring</code><br />
+<code>const querystring = require('querystring');</code></li>
+<li><strong>Récupérez les paramètres</strong> de la requête en ajoutant les instructions suivantes à partir de la ligne 10</li>
+</ol>
+<div><pre class="hljs"><code><span class="hljs-keyword">const</span> params = querystring.<span class="hljs-title function_">parse</span>(url.<span class="hljs-title function_">parse</span>(req.<span class="hljs-property">url</span>).<span class="hljs-property">query</span>);
+<span class="hljs-keyword">if</span>(<span class="hljs-string">"name"</span> <span class="hljs-keyword">in</span> params) {
+    res.<span class="hljs-title function_">end</span>(<span class="hljs-string">"Bonjour "</span> + params.<span class="hljs-property">name</span> + <span class="hljs-string">" !"</span>);
+}<span class="hljs-keyword">else</span> {
+    res.<span class="hljs-title function_">end</span>(<span class="hljs-string">"Bonjour inconnu"</span>);
+}</code></pre></div>
+<ol start="3">
+<li>Rechargez la page en <strong>passant le paramètre name dans l'url</strong>. Que remarquez-vous ?</li>
+<li>Modifiez le programme pour prendre en compte un paramètre <strong>age</strong>, puis affichez le message <strong>"Bonjour [name], vous avez [age] ans !"</strong>.</li>
+<li>Rechargez la page et vérifiez que tout fonctionne.</li>
+</ol>
+]]></content:encoded>
+        </item>
+    </channel>
+</rss>

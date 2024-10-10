@@ -1,54 +1,39 @@
-<?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-    <channel>
-        <title></title>
-        <link>undefined</link>
-        <description>undefined</description>
-        <lastBuildDate>Thu, 10 Oct 2024 14:38:18 GMT</lastBuildDate>
-        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
-        <generator>Joplin Pages Publisher</generator>
-        <item>
-            <title><![CDATA[0. Liste d'outils pour scanner les vulnérabilités]]></title>
-            <guid>bba1ac601365491ab7e173deba30f1c7</guid>
-            <pubDate>Thu, 23 Nov 2023 07:53:26 GMT</pubDate>
-            <content:encoded><![CDATA[<h1 id="scanner-de-vulnerabilités">Scanner de vulnerabilités</h1>
-<p>Le liste est impossible à maintenir. L'idée est plutôt de comprendre ce que font ces quelques outils, de les maîtriser, et de mettre cette liste à jour fréquemment.</p>
-<ul>
-<li><a>Autopwn</a></li>
-<li><a>Nikto</a></li>
-<li><a>Nessus</a></li>
-<li><a>MetaSploit</a></li>
-<li>Cible orientée CMS
-<ul>
-<li><a>WPScan</a></li>
-<li><a>CMSMap</a></li>
-</ul>
-</li>
-<li>On cible ici les injections SQL
-<ul>
-<li><a>Sqlmap</a></li>
-</ul>
-</li>
-<li>Scanner multi-tâches
-<ul>
-<li><a>Burp Suite</a></li>
-<li><a>OpenVAS</a></li>
-</ul>
-</li>
-<li>Scanner de vulnérabilités dans le code
-<ul>
-<li><a>Snyk</a></li>
-<li><a>SonarQube</a></li>
-</ul>
-</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[01. Les Injections SQL]]></title>
-            <guid>a96c0111c9f3405d93c132316e0524cb</guid>
-            <pubDate>Thu, 22 Sep 2022 08:33:15 GMT</pubDate>
-            <content:encoded><![CDATA[<h1 id="injections-sql-sqli-principes-impacts-exploitations-et-bonnes-pratiques-de-sécurité">Injections SQL (SQLi) : principes, impacts, exploitations et bonnes pratiques de sécurité</h1>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+<link rel="stylesheet" href="/_assets/main.css" />
+
+    <title>01. Les Injections SQL - LiliwoL</title>
+  <link rel="stylesheet" href="/_markdown_plugin_assets/highlight.js/atom-one-light.css" /></head>
+  <body>
+    <div class="main">
+      <nav class="navigation">
+        <a href="/">LiliwoL</a>
+      </nav>
+      <article>
+        <header>
+          <h1 class="article-title">01. Les Injections SQL</h1>
+          <div class="article-info">
+            <div>
+              <span
+                >Created At：<time datetime="1663835595574"
+                  >2022-09-22 10:33</time
+                ></span
+              >
+              <span
+                >Updated At：<time datetime="1724745325491"
+                  >2024-08-27 09:55</time
+                ></span
+              >
+            </div>
+            
+          </div>
+        </header>
+        <div class="article-content markdown-body"><h1 id="injections-sql-sqli-principes-impacts-exploitations-et-bonnes-pratiques-de-sécurité">Injections SQL (SQLi) : principes, impacts, exploitations et bonnes pratiques de sécurité</h1>
 <p><img src="/_resources/4eb72b3ce6c04520a0516c088875d62e.png" /></p>
 <nav class="table-of-contents"><ul><li><a href="#injections-sql-sqli-principes-impacts-exploitations-et-bonnes-pratiques-de-sécurité">Injections SQL (SQLi) : principes, impacts, exploitations et bonnes pratiques de sécurité</a></li><li><a href="#introduction">Introduction</a><ul><li><a href="#en-quoi-consiste-une-injection-sql-sqli">En quoi consiste une injection SQL (SQLi) ?</a></li><li><a href="#cas-dutilisation-et-impacts-dune-injection-sql">Cas d’utilisation et impacts d’une injection SQL</a></li><li><a href="#liste-des-injections-sql-connues">Liste des injections SQL connues</a></li><li><a href="#comment-détourner-la-logique-dune-application-via-une-attaque-par-injection-sql">Comment détourner la logique d’une application via une attaque par injection SQL ?</a><ul><li><a href="#recherche-dun-paramètre-vulnérable-aux-sqli">Recherche d’un paramètre vulnérable aux SQLi</a></li><li><a href="#contournement-dauthentification-via-une-attaque-par-injection-sql">Contournement d’authentification via une attaque par injection SQL</a></li><li><a href="#attaque-par-injection-sql-avec-lopérateur-or">Attaque par injection SQL avec l’opérateur OR</a></li><li><a href="#contournement-de-lauthentification-avec-des-commentaires">Contournement de l’authentification avec des commentaires</a></li></ul></li><li><a href="#focus-sur-les-attaques-par-injection-sql-avec-union-union-based-sqli">Focus sur les attaques par injection SQL avec UNION (Union Based SQLi)</a><ul><li><a href="#identification-du-nombre-de-colonnes">Identification du nombre de colonnes</a></li><li><a href="#utilisation-de-order-by">Utilisation de ORDER BY</a></li><li><a href="#utilisation-de-union">Utilisation de UNION</a></li><li><a href="#localisation-de-linjection">Localisation de l’injection</a></li></ul></li><li><a href="#énumération-de-la-base-de-données-suite-à-un-sqli">Énumération de la base de données suite à un SQLi</a><ul><li><a href="#schema">Schema</a></li><li><a href="#tables">Tables</a></li><li><a href="#colonnes">Colonnes</a></li><li><a href="#données">Données</a></li></ul></li><li><a href="#lecture-de-fichiers-suite-à-une-sqli">Lecture de fichiers suite à une SQLi</a></li><li><a href="#écriture-dans-des-fichiers-suite-à-une-sqli">Écriture dans des fichiers suite à une SQLi</a></li></ul></li><li><a href="#suite">Suite</a></li></ul></nav><p>v 0.2</p>
 <hr />
@@ -265,7 +250,38 @@ Cette opération peut être effectuée de la même manière que celle qui a perm
 <li>Les injections SQL: les risques <a>02. Les Injections SQL: Risques </a></li>
 <li>Les injections SQL: les contre mesures <a>03. Les Injections SQL: Contre mesures</a></li>
 </ul>
-]]></content:encoded>
-        </item>
-    </channel>
-</rss>
+</div>
+      </article>
+    </div>
+
+    <footer>
+      
+<ul>
+    
+    <li>
+        b3
+        
+        <ul>
+            
+        </ul>
+    </li>
+
+    <li>
+        
+        
+        <ul>
+            
+        </ul>
+    </li>
+
+</ul>
+
+<script>
+    // if you know JavaScript programming,
+    // you can write code here to control which tag and its related articles should be displayed,
+    // according to user clicking or query string in url
+    // if you don't, maybe it can be your first lesson of JS programming :)
+</script>
+    </footer>
+  </body>
+</html>
